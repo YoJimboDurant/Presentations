@@ -1,5 +1,8 @@
 library(plyr)
 library(NADA)
+library(lattice)
+library(latticeExtra)
+library(fitdistrplus)
 
 smallKM = function(obs,cen){
   # this function takes NADA format data and returns KM mean
@@ -26,28 +29,59 @@ smallKM = function(obs,cen){
         c(1, S))
 }
 
-samplesize <- rep(100,3)
+
+samplesize <- rep(25,3)
 detectionlimits <- c(0.5,1,3)
 proportions <- c(0.1,0.5,0.4)
-logMu <- rep(0,3)
-logSD <- rep(1,3)
+type = rep("lnorm",3)
+meanlog <- rep(0,3)
+sdlog <- rep(1,3)
 
-myrun <- data.frame(samplesize,detectionlimits, proportions, logMu, logSD)
+myrunLn <- data.frame(samplesize,detectionlimits, proportions, type, meanlog, sdlog)
 
-makeCenData <- function(samplesize, detectionlimits, proportions, logMu, logSD){
+
+
+detectionlimits <- c(0.5,1,3)
+proportions <- c(0.1,0.5,0.4)
+type = rep("gamma",3)
+shape <- rep(2,3)
+scale <- rep(10,3)
+
+myrunGm <- data.frame(samplesize,detectionlimits, proportions, type, shape, scale)
+
+makeCenData <- function(samplesize, detectionlimits, proportions, type = "lnrom", ...){
   n <- round(samplesize * proportions, 0)
-  values <- rlnorm(n, logMu, logSD)
+  values <- do.call(paste("r", type, sep=""), list(n=n, ...))
   cen <- values < detectionlimits
   obs <- values
   obs[cen] <- detectionlimits
   data.frame(n,values,obs,cen)
 }
 
-mydata <- mdply(myrun, makeCenData)
-  
+mydataLn <- mdply(myrunLn, makeCenData)
+mydataGm <- mdply(myrunGm, makeCenData)
 
-KMuncen <- cenfit(mydata$value, rep(FALSE, length(mydata$value)), conf.int=0)
-KMcen <- cenfit(mydata$obs, mydata$cen)
+fit1Ln <- fitdist(mydataLn$value, "lnorm")
+fit1Gm <- fitdist(mydataLn$value, "gamma")
+
+# First Figure ECDF
+
+plot1 <- ecdfplot(mydataLn$value, ylab="p(X \u2264 x)", xlab="x")
+
+cairo_pdf("Figure1.pdf")
+print(plot1)
+dev.off()
+
+plot1 <- ecdfplot(mydataLn$value, ylab="p(X \u2264 x)", xlab="x")
+
+cairo_pdf("Figure1.pdf")
+print(plot1)
+dev.off()
+
+
+
+KMuncen <- cenfit(mydataLn$value, rep(FALSE, length(mydataLn$value)), conf.int=0)
+KMcen <- cenfit(mydataLn$obs, mydataLn$cen)
 
 plot(KMuncen)
 
@@ -62,8 +96,13 @@ legend("topleft", "Probability Density Function", cex=0.8, col="blue",
        lty=1, lwd=2, bty="n")
 
 # show a probability of a value
-plot(.x, dlnorm(.x, logMu, logSD), type="l", xlab="Value", col="blue", ylab= "Density", ylim=c(0,1.01))
 
+cairo_pdf("Figure2.pdf")
+plot(.x, dlnorm(.x, logMu, logSD), type="l", xlab="Value", col="blue", ylab= "Density", ylim=c(0,1.01))
+dev.off()
+
+cairo_pdf("Figure3.pdf")
+plot(.x, dlnorm(.x, logMu, logSD), type="l", xlab="Value", col="blue", ylab= "Density", ylim=c(0,1.01))
 cutpoint <- qlnorm(0.5,0,1)
 polygon(c(.x[.x <= cutpoint], rev(.x[.x <= cutpoint])),        
         c(dlnorm(.x[.x <= cutpoint], 0,1), rep(0, sum(.x <= cutpoint))),        
@@ -72,8 +111,23 @@ polygon(c(.x[.x <= cutpoint], rev(.x[.x <= cutpoint])),
 legend("topleft", "Probability Density Function", cex=0.8, col="blue", 
        lty=1, lwd=2, bty="n")
 
-text(cutpoint, dlnorm(cutpoint, logMu, logSD), paste("p(x \u2266 ", cutpoint,") = ", 
-                        plnorm(cutpoint, logMu, logSD)), adj=c(-0.5,0))
+text(cutpoint, dlnorm(cutpoint, logMu, logSD), paste("p(x \u2264 ", cutpoint,") = ", 
+                                                     plnorm(cutpoint, logMu, logSD)), adj=c(-0.5,0))
+dev.off()
+
+
+
+cdfcomp(list(fit1Ln, fit1Gm), , legendtext=c("log-normal", "gamma"))
+qqcomp(list(fit1Ln, fit1Gm), , legendtext=c("log-normal", "gamma"))
+ppcomp(list(fit1Ln, fit1Gm), , legendtext=c("log-normal", "gamma"))
+denscomp(list(fit1Ln, fit1Gm), , legendtext=c("log-normal", "gamma"))
+
+lapply(stat1, print)
+
+
+
+  
+
 
 
 plot(.x, plnorm(.x, logMu, logSD), type="l", xlab="Value", col="red", ylab= "p(x \u2266 X)", log="x", ylim=c(0,1.01))

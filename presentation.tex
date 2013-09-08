@@ -5,7 +5,7 @@
 
 \usetheme{Antibes}
 
-\title[Statistics and Data Analysis]{A Short Introduction to Statistics and Data Analysis}
+\title[Statistics and Data Analysis]{A Short Introduction to Statistics and Data Analysis - DRAFT DO NOT CITE OUR QUOTE}
 \author{James T. Durant}
 
 \begin{document}
@@ -25,60 +25,79 @@
 
 \section{Introduction}
 \begin{frame}{Introduction}
-Today we will be demonstrating several concepts that we are utilizing in the Exposure Investigation and Data Analysis Team. We will be using \textbf{R} as a platform to demonstrate these concepts. our focus will not be on the mechnics of using \textbf{R} or the underlying mathmatics, but to try and illustrate the concepts of what is happening and basic guidelines of their use.
+Today we will be demonstrating several concepts that we are utilizing in the Exposure Investigation and Data Analysis Team. We will be using \textbf{R} as a platform to demonstrate these concepts. our focus will not be on the mechnics of using \textbf{R} or the underlying mathmatics, but to try and illustrate the concepts of what is happening and basic concepts that will help guide thier use.
 
  \textbf{R} is not the sole platform that can perform these analyses, but the concepts are transient to all instances.
 
-\alert{Almost all data analysis requires some level of sophistication - there are limitations and caveats to the techniques }
+\alert{Almost all data analysis requires some anaysis and understanding - there are no cookbook techniques }
 
 \end{frame}
 
+\section{Distribution Functions}
 
-\section{Data Visualization}
-
-
-\begin{frame}{Data Visualization}
-Excellent place to start!
-
-\begin{itemize}
-\item Trends
-\item Distribution
-\item Relationships
-\item Unusual Points
-\end {itemize}
-
-\end{frame}
-
-\begin{frame}{Conditioning with Boxplots}
-Conditioning Data can Reveal Useful Information:
-\includegraphics[height=2.5in]{graph1}
-
-
-\end{frame}
-
-
-\begin{frame}{Conditioning with Data Catagories}
-\begin{center}
-Conditioning Data can Reveal Useful Information:
-\includegraphics[height=3in]{Figures1}
-\end{center}
+\begin{frame}{Emprical Distribution Functions (ECDF)}
+\begin{columns}    
+	\begin{column}{4cm}        
+		\begin{center}
+		ECDF Plot           
+	 	\includegraphics[width=1.0\textwidth]{Figure1}        
+		\end{center}   
+	 \end{column}    
+	\begin{column}{5cm}        
+	  
+	\begin{itemize}
+	\item Probability that a given value is less than a value
+	\item Based on actual data - with each point having a probability 1/N where N is sample size.
+	\item When plotted looks like stair steps going up from 0 to 1.
+	\end{itemize}
+	\end{column}
+	\end{columns}
 
 \end{frame}
 
+\begin{frame}{Probability Distribution Functions (PDF)}
+\begin{columns}    
+	\begin{column}{4cm}        
+		\begin{center}
+		PDF Plot           
+	 	\includegraphics[width=1.0\textwidth]{Figure2}        
+		\end{center}   
+	 \end{column}    
+	\begin{column}{5cm}        
+	  
+	\begin{itemize}
+	\item Probability density that x is a certain value
+	\item Based on a function - are below the curve must equal to 1
+	\item Higher density means more likely values in that range
+	\end{itemize}
+	\end{column}
+	\end{columns}
 
-\begin{frame}{Conditioning with Data Catagories}
-\begin{center}
-Conditioning Data can Reveal Useful Information:
-\includegraphics[height=3in]{Figures5}
-
-\end{center}
 \end{frame}
+
+\begin{frame}{Probability  Distribution Functions (PDF)}
+\begin{columns}    
+	\begin{column}{4cm}        
+		\begin{center}
+		PDF Plot           
+	 	\includegraphics[width=1.0\textwidth]{Figure3}        
+		\end{center}   
+	 \end{column}    
+	\begin{column}{5cm}        
+	  
+	\begin{itemize}
+	\item PDF can be used ot calculate that  x is at or below a certain value
+	\item Equal to the area under the PDF curve below a given value
+	\item Here we see probability x less than or equal to 1 is 0.5
+	\end{itemize}
+	\end{column}
+	\end{columns}
+
+\end{frame}
+
 
 \section{Censored Data Analysis}
-\begin{frame}{Alternatives to Substitution of Methods}
 
-
-\end{frame}
 
 \subsection{Robust Regression on Order Statistics}
 
