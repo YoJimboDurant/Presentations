@@ -67,8 +67,8 @@ Today we will be demonstrating several concepts that we are utilizing in the Exp
 	  
 	\begin{itemize}
 	\item Probability density that x is a certain value
-	\item Based on a function - are below the curve must equal to 1
-	\item Higher density means more likely values in that range
+	\item Based on a function - area below the curve must equal to 1
+	\item Higher density indicates more likely the values given the distribution
 	\end{itemize}
 	\end{column}
 	\end{columns}
@@ -88,11 +88,82 @@ Today we will be demonstrating several concepts that we are utilizing in the Exp
 	\begin{itemize}
 	\item PDF can be used ot calculate that  x is at or below a certain value
 	\item Equal to the area under the PDF curve below a given value
-	\item Here we see probability x less than or equal to 1 is 0.5
+	\item Here we see probability $X \le 1$ is 0.5
 	\end{itemize}
 	\end{column}
 	\end{columns}
 
+\end{frame}
+
+
+\begin{frame}{Cummulative  Distribution Functions (CDF)}
+We can also plot the PDF another way – instead of the density on the y axis, we can plot the cumulative probability that  $X \le Value$. This is called the Cumulative Distribution Function (CDF).	
+\begin{columns}    
+	\begin{column}{4cm}        
+		\begin{center}
+		CDF Plot           
+	 	\includegraphics[width=1.0\textwidth]{Figure4}        
+		\end{center}   
+	 \end{column}    
+	\begin{column}{5cm}        
+	  
+	\begin{itemize}
+	\item CDF’s can be used to calculate mean
+	\item Area of (Value x CDF(Value)) = mean
+	\end{itemize}
+	\end{column}
+	\end{columns}
+
+\end{frame}
+
+\begin{frame}{ECDF and CDF}
+ECDF approximates CDF	
+\begin{columns}    
+	\begin{column}{4cm}        
+		\begin{center}
+		ECDF and CDF Plot           
+	 	\includegraphics[width=1.0\textwidth]{Figure4}        
+		\end{center}   
+	 \end{column}    
+	\begin{column}{5cm}        
+	  
+	\begin{itemize}
+	\item BOTH can be used to calculate mean
+	\item Area of (Value x CDF(Value)) = mean
+	\item Area of (Value x ECDF(Value)) = mean
+	\end{itemize}
+	\end{column}
+	\end{columns}
+
+\end{frame}
+
+\begin{frame}{Probability Plotting}
+
+\begin{columns}    
+	\begin{column}{4cm}        
+		\begin{center}		           
+	 	\includegraphics[width=1.0\textwidth]{Figure7}        
+		\end{center}   
+	 \end{column}    
+	\begin{column}{5cm}        
+	\begin{itemize}
+	\item Compute plotting position (number of standard deviations)
+	\item This is also a probability
+	\item Plot values versus their probability on a scale of standard deviations
+	\end{itemize}
+	\end{column}
+	\end{columns}
+
+\end{frame}
+
+
+\begin{frame}{Maximum Likelihood}
+\begin{itemize}
+\item With multiple observations, the likelihood of the parameters (e.g. mean and variance) is proportional to their probability densities given the parameters multiplied together
+\begin{center}
+\includegraphics[height=6cm]{Figure8}
+\end{center}
+\end{itemize}
 \end{frame}
 
 
@@ -106,9 +177,9 @@ Today we will be demonstrating several concepts that we are utilizing in the Exp
 \end{frame}
 
 
-\subsection{Maximum Liklihood Estimation}
+\subsection{Maximum Likelihood Estimation}
 
-\begin{frame}{Maximum Liklihood Estimation - [MLE] }
+\begin{frame}{Maximum Likelihood Estimation - [MLE] }
 
 \end{frame}
 
