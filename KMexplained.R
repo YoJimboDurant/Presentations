@@ -5,6 +5,7 @@ library(latticeExtra)
 library(fitdistrplus)
 library(mvtnorm)
 library(rgl)
+library(LearnBayes)
 
 smallKM = function(obs,cen){
   # this function takes NADA format data and returns KM mean
@@ -192,13 +193,6 @@ dev.off()
 # Attempt Figure 8 - MLE
 
 
-sigma <- matrix(c(8,0.25 *8, 0.25 *8, 8),2,2)
-xvals <- seq(-10,10, length=100)
-yvals <- seq(-10,10, length=100)
-zvals <- apply(expand.grid(xvals, yvals), 1, function(w)
-  dmvnorm(w, mean=c(0,0), sigma=sigma))
-
-persp3d(x=xvals, y=yvals, z=zvals, col="lightblue")
 
 
 source("jimcontour.R")
@@ -209,10 +203,21 @@ x = jimcontour(normchi2post, c(-3,3, 0.1 ,3), rnorm(25),
 view3d( theta = 34, phi = -74)
 persp3d(x=x$x, y=x$y, z=exp(x$Z),col="light blue", xlab="Mean", ylab="Variance", zlab="Likelihood")
 
-rgl.snapshot("Figure8.png", fmt="png")
+#I am happy with the figure 8 for now, so I commented this next line out
+#rgl.snapshot("Figure8.png", fmt="png")
+
+# attempt to make animate the liklihoo
+
+open3d()
+M <- par("userMatrix")
+persp3d(x=x$x, y=x$y, z=exp(x$Z),col="light blue", xlab="Mean", ylab="Variance", zlab="Likelihood")
+# play3d(par3dinterp( userMatrix = list(M, rotate3d(M, pi/2,1,0,0),
+#                                       rotate3d(M, pi/2,0,1,0))),
+#        duration=10)
+
+movie3d( spin3d(rpm=1), duration=60)
 
 
-##### This is where I left off.
 
 
 
