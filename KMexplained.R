@@ -90,7 +90,7 @@ dev.off()
 
 KMuncen <- cenfit(mydataLn$value, rep(FALSE, length(mydataLn$value)), conf.int=0)
 KMcen <- cenfit(mydataLn$obs, mydataLn$cen)
-
+KM1cen <- cenfit(mydata1cen$obs, mydata1cen$cen)
 plot(KMuncen)
 
 KMVals <- KMcen@survfit$time
@@ -140,7 +140,7 @@ dev.off()
 
 
 #Survival Function
-plot(.x, 1-plnorm(.x, meanlog, sdlog), type="l", xlab="Value", col="red", ylab= "p(x > X)", log="x", ylim=c(0,1.01))
+plot(.x, 1-plnorm(.x, meanlog, sdlog), type="l", xlab="x", col="red", ylab= "p(x > X)", log="x", ylim=c(0,1.01))
 abline(h=1)
 legend("topright", "Survival Function", cex=0.8, col="red", 
        lty=1, lwd=2, bty="y", bg="white")
@@ -156,7 +156,7 @@ polygon(c(.x, rev(.x)),
         col = "skyblue")
 
 #Survival Function - not used but it available
-plot(.x, 1-plnorm(.x, meanlog, sdlog), type="l", xlab="Value", col="red", ylab= "p(x > X)", log="x", ylim=c(0,1.01))
+plot(.x, 1-plnorm(.x, meanlog, sdlog), type="l", xlab="x", col="red", ylab= "p(x > X)", log="x", ylim=c(0,1.01))
 abline(h=1)
 legend("topright", "Survival Function", cex=0.8, col="red", 
        lty=1, lwd=2, bty="y", bg="white")
@@ -248,16 +248,13 @@ kmMeanNoCen <- max(mydata$values)-sum(ecdf.area)
 
 meancdf = integrate(function(...) 1-plnorm(...), 0, Inf, meanlog, sdlog)
 
-# try with cenlimit
+# try with single cenlimit
 
-mydata$obs1 <- mydata$values
-mydata$cen1 <- mydata$obs1 < 1
-
-km1cen <- cenfit(mydata$obs1, mydata$cen1)
-plot(km1cen)
+km1cen <- cenfit(mydata1cen$obs, mydata1cen$cen)
+plot(km1cen, xlim=c(0.01,10))
 lines(.x, plnorm(.x, meanlog, sdlog), col="red")
-
-
+lines(.x, rep(1, length(.x)))
+lines(x=c(0.01,0.5), y=c(min(km1cen@survfit$surv), min(km1cen@survfit$surv)), lty=3)
 
 cdfcomp(list(fit1Ln, fit1Gm), , legendtext=c("log-normal", "gamma"))
 qqcomp(list(fit1Ln, fit1Gm), , legendtext=c("log-normal", "gamma"))
